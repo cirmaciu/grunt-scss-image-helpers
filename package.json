@@ -1,0 +1,23 @@
+{
+  "name": "grunt-scss-image-helpers",
+  "version": "0.0.1",
+  "description": "Compass image functions for use with libsass",
+  "keywords": [],
+  "author": {
+    "name": "Daniel Cirmaciu",
+    "email": "daniel@cirmaciu.cz",
+    "url": "http://cirmaciu.cz"
+  },
+  "dependencies": {
+    "image-size": "~0.1.16",
+    "path": "~0.4.9"
+  },
+  "devDependencies": {},
+  "licenses": {
+    "type": "MIT"
+  },
+  "files": [
+    "tasks/helpers.js"
+  ],
+  "readmeFilename": "readme.md"
+}

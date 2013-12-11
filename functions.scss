@@ -1,0 +1,7 @@
+@function image-width($image) {
+    @return nth($grunt-images-widths, index($grunt-images-names, $image))*1px;
+}
+
+@function image-height($image) {
+    @return nth($grunt-images-heights, index($grunt-images-names, $image))*1px;
+}
