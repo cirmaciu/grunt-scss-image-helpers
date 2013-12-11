@@ -1,7 +1,30 @@
+$anti-cache: flase;
+
 @function image-width($image) {
-    @return nth($grunt-images-widths, index($grunt-images-names, $image))*1px;
+    $index: index($grunt-images-names, $image);
+    @if $index {
+        @return nth($grunt-images-widths, $index)*1px;
+    }
 }
 
 @function image-height($image) {
-    @return nth($grunt-images-heights, index($grunt-images-names, $image))*1px;
+    $index: index($grunt-images-names, $image);
+    @if $index {
+        @return nth($grunt-images-heights, $index)*1px;
+    }
+}
+
+@function image-url($image) {
+    $index: index($grunt-images-names, $image);
+    @if $anti-cache and $index {
+        $imageName: nth($grunt-images-anti-cache-names, $index);
+        @return url('#{$imageRoot}#{$imageName}')
+    }
+    @else {
+        @return url('#{$imageRoot}#{$image}');
+    }
+}
+
+@function inline-image($image) {
+    @return url('#{$imageRoot}#{$image}?base64');
 }
