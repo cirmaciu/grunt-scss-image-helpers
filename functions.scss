@@ -1,19 +1,19 @@
 @function image-width($image) {
-    $index: index($grunt-images-names, $image);
+    $index: index($grunt-images-ids, $image);
     @if $index {
         @return nth($grunt-images-widths, $index)*1px;
     }
 }
 
 @function image-height($image) {
-    $index: index($grunt-images-names, $image);
+    $index: index($grunt-images-ids, $image);
     @if $index {
         @return nth($grunt-images-heights, $index)*1px;
     }
 }
 
 @function image-url($image) {
-    $index: index($grunt-images-names, $image);
+    $index: index($grunt-images-ids, $image);
     @if $index {
         $imageName: nth($grunt-images-names, $index);
         @return url('#{$imageRoot}#{$imageName}')
