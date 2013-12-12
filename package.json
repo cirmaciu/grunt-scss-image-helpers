@@ -1,6 +1,6 @@
 {
-  "name": "grunt-image-helpers",
-  "version": "0.0.1",
+  "name": "grunt-scss-image-helpers",
+  "version": "0.0.2",
   "description": "Compass image functions for libsass",
   "keywords": [],
   "author": {
@@ -16,12 +16,6 @@
     "path": "~0.4.9"
   },
   "devDependencies": {},
-  "peerDependencies": {
-    "grunt": "~0.4.0"
-  },
-  "engines": {
-    "node": ">=0.10.0"
-  },
   "licenses": {
     "type": "MIT"
   },
