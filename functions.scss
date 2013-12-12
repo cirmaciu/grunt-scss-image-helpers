@@ -1,5 +1,3 @@
-$anti-cache: flase;
-
 @function image-width($image) {
     $index: index($grunt-images-names, $image);
     @if $index {
@@ -16,8 +14,8 @@ $anti-cache: flase;
 
 @function image-url($image) {
     $index: index($grunt-images-names, $image);
-    @if $anti-cache and $index {
-        $imageName: nth($grunt-images-anti-cache-names, $index);
+    @if $index {
+        $imageName: nth($grunt-images-names, $index);
         @return url('#{$imageRoot}#{$imageName}')
     }
     @else {
