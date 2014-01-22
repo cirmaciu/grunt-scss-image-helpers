@@ -1,13 +1,9 @@
 {
   "name": "grunt-scss-image-helpers",
   "version": "0.0.2",
-  "description": "Compass image functions for libsass",
-  "keywords": [],
-  "author": {
-    "name": "Daniel Cirmaciu",
-    "email": "daniel@cirmaciu.cz",
-    "url": "http://cirmaciu.cz"
-  },
+  "description": "Creates variables for Compass-like image helpers for url, width and height of images.",
+  "keywords": ["gruntplugin", "scss", "sass"],
+  "author": "Daniel Cirmaciu <daniel@cirmaciu.cz> (http://cirmaciu.cz)",
   "scripts": {
     "test": "grunt"
   },
@@ -19,8 +15,18 @@
   "licenses": {
     "type": "MIT"
   },
+  "peerDependencies": {
+    "grunt": "~0.4.1"
+  },
   "files": [
     "tasks/helpers.js"
   ],
-  "readmeFilename": "readme.md"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cirmaciu/grunt-scss-image-helpers.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cirmaciu/grunt-scss-image-helpers/issues"
+  }
 }
