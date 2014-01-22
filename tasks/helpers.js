@@ -8,6 +8,7 @@ module.exports = function (grunt) {
         var options = this.options({
             prefix: 'grunt-images',
             imageRoot: '',
+            relativePath: '',
             antiCache: false
         });
 
@@ -50,7 +51,40 @@ module.exports = function (grunt) {
             output += '$' + options.prefix + '-ids: ' +  '\'' + list.ids.join('\', \'') + '\';\n';
             output += '$' + options.prefix + '-names: ' +  '\'' + list.paths.join('\', \'') + '\';\n';
             output += '$' + options.prefix + '-widths: ' + list.widths.join(', ') + ';\n';
-            output += '$' + options.prefix + '-heights: ' + list.heights.join(', ') + ';';
+            output += '$' + options.prefix + '-heights: ' + list.heights.join(', ') + ';\n';
+            output += '$' + options.prefix + '-relative-path: \'' + options.relativePath + '\';\n';
+
+            // this is temporary solution
+            output += [
+                "@function image-width($image) {",
+                    "$index: index($" + options.prefix + "-ids, $image);",
+                    "@if $index {",
+                        "@return nth($" + options.prefix + "-widths, $index)*1px;",
+                    "}",
+                "}",
+
+                "@function image-height($image) {",
+                    "$index: index($" + options.prefix + "-ids, $image);",
+                    "@if $index {",
+                        "@return nth($" + options.prefix + "-heights, $index)*1px;",
+                    "}",
+                "}",
+
+                "@function image-url($image) {",
+                    "$index: index($" + options.prefix + "-ids, $image);",
+                    "@if $index {",
+                        "$image-name: nth($" + options.prefix + "-names, $index);",
+                        "@return url('#{$" + options.prefix + "-relative-path}#{$image-name}')",
+                    "}",
+                    "@else {",
+                        "@return url('#{$" + options.prefix + "-relative-path}#{$image}');",
+                    "}",
+                "}",
+
+                "@function inline-image($image) {",
+                    "@return url('#{$" + options.prefix + "-relative-path}#{$image}?base64');",
+                "}"
+            ].join('\n');
 
             grunt.file.write(dest, output);
 
