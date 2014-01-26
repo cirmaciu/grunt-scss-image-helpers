@@ -1,6 +1,6 @@
 {
   "name": "grunt-scss-image-helpers",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Creates variables for Compass-like image helpers for url, width and height of images.",
   "keywords": ["gruntplugin", "scss", "sass"],
   "author": "Daniel Cirmaciu <daniel@cirmaciu.cz> (http://cirmaciu.cz)",
@@ -9,7 +9,8 @@
   },
   "dependencies": {
     "image-size": "~0.1.16",
-    "path": "~0.4.9"
+    "path": "~0.4.9",
+    "mime": "~1.2.11"
   },
   "devDependencies": {},
   "licenses": {

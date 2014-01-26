@@ -1,7 +1,8 @@
 'use strict';
 var sizeOf = require('image-size'),
     path = require('path'),
-    fs = require('fs');
+    fs = require('fs'),
+    mime = require('mime');
 
 module.exports = function (grunt) {
     grunt.registerMultiTask('scss_images', 'Create image size variables', function() {
@@ -9,7 +10,8 @@ module.exports = function (grunt) {
             prefix: 'grunt-images',
             imageRoot: '',
             relativePath: '',
-            antiCache: false
+            antiCache: false,
+            size: 10240
         });
 
         this.files.forEach(function(filePair) {
@@ -20,13 +22,15 @@ module.exports = function (grunt) {
                     ids: [],
                     widths: [],
                     heights: [],
-                    paths: []
+                    paths: [],
+                    base64: []
                 };
 
             src.forEach(function(file) {
                 var filePath = unixifyPath(path.relative(options.imageRoot, file)),
                     size = null,
-                    time = 0;
+                    time = 0,
+                    stats = null;
 
                 if (path.extname(file) === '.svg') { // waiting for image-size to implement svg support
                     size = {
@@ -41,8 +45,15 @@ module.exports = function (grunt) {
                 list.widths.push(size.width);
                 list.heights.push(size.height);
 
+                stats = fs.statSync(file);
+                if (stats.size < options.size) {
+                    list.base64.push('data:' + mime.lookup(file) + ';base64,' + fs.readFileSync(file, 'base64'));
+                } else {
+                    list.base64.push('');
+                }
+
                 if (options.antiCache) {
-                    time = (new Date(fs.statSync(file).mtime).getTime()/1000).toFixed(0);
+                    time = (new Date(stats.mtime).getTime()/1000).toFixed(0);
                     filePath = filePath.replace(/([^\.]*)$/, time + '.$1');
                 }
                 list.paths.push(filePath);
@@ -52,6 +63,7 @@ module.exports = function (grunt) {
             output += '$' + options.prefix + '-names: ' +  '\'' + list.paths.join('\', \'') + '\';\n';
             output += '$' + options.prefix + '-widths: ' + list.widths.join(', ') + ';\n';
             output += '$' + options.prefix + '-heights: ' + list.heights.join(', ') + ';\n';
+            output += '$' + options.prefix + '-base64: ' +  '\'' + list.base64.join('\', \'') + '\';\n';
             output += '$' + options.prefix + '-relative-path: \'' + options.relativePath + '\';\n';
 
             // this is temporary solution
@@ -82,7 +94,20 @@ module.exports = function (grunt) {
                 "}",
 
                 "@function inline-image($image) {",
-                    "@return url('#{$" + options.prefix + "-relative-path}#{$image}?base64');",
+                    "$index: index($" + options.prefix + "-ids, $image);",
+                    "@if $index {",
+                        "$base64: nth($" + options.prefix + "-base64, $index);",
+                        "@if $base64 == '' {",
+                            "$image-name: nth($" + options.prefix + "-names, $index);",
+                            "@return url('#{$" + options.prefix + "-relative-path}#{$image-name}')",
+                        "}",
+                        "@else {",
+                            "@return url('#{$base64}')",
+                        "}",
+                    "}",
+                    "@else {",
+                        "@return url('#{$" + options.prefix + "-relative-path}#{$image}');",
+                    "}",
                 "}"
             ].join('\n');
 

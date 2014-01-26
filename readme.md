@@ -16,7 +16,7 @@ Path to image folder. All image names are created relatively to this folder.
 Type: `String`  
 Default: `grunt-images`
 
-Prefix for SCSS variables. Four variables are created: `$grunt-images-names`, `$grunt-images-widths`, `$grunt-images-heights` and `$grunt-images-relative-path`.
+Prefix for SCSS variables. These variables are created: `$grunt-images-names`, `$grunt-images-widths`, `$grunt-images-heights`, `$grunt-images-base64` and `$grunt-images-relative-path`.
 
 #### antiCache
 
@@ -31,7 +31,14 @@ If set to `true`, task generates file names with timestamps to invalidate browse
 Type: `String`  
 Default: `''`
 
-All image paths in css are prefixed with this path. For example for `../img/` image `foo.png` became `../img/foo.png`.
+All image paths in css are prefixed with this path. For example path `../img/` and image `foo.png` become `../img/foo.png`.
+
+#### size
+
+Type: `Integer`
+Default: `10240`
+
+Maximum file size for base64 encoding. Images bigger than that won't be encoded.
 
 ### Example config
 
@@ -43,7 +50,8 @@ grunt.initConfig({
                 imageRoot: 'assets/img/',
                 prefix: 'grunt-images',
                 antiCache: true,
-                relativePath: '../img/'    
+                relativePath: '../img/',
+                size: 4096
             },
             files: {
                 'assets/scss/_images.scss': ['assets/img/*.png']
