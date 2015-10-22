@@ -8,7 +8,7 @@
     "test": "grunt"
   },
   "dependencies": {
-    "image-size": "~0.1.16",
+    "image-size": "~0.3.0",
     "path": "~0.4.9",
     "mime": "~1.2.11"
   },
